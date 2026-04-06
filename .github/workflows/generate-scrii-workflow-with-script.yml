@@ -1,0 +1,17 @@
+name: Generate-ascii workflow
+
+on: push
+
+jobs:
+    ascii_job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: add checkout
+              uses: actions/checkout@v6
+            - name: list files
+              run: ls -ltra
+            - name: change permission of the script file and execute the script.
+              run: |
+                chmod +x ascii-script.sh
+                ./scrii-script.sh
+           

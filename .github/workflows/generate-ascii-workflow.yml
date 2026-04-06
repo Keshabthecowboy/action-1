@@ -1,0 +1,25 @@
+name: Generate-ascii workflow
+
+on: push
+
+jobs:
+    ascii_job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: add checkout
+              uses: actions/checkout@v6
+            - name: welcome message list files and read the README.md
+              run: |
+                echo "My first Github Action Job"
+                ls -ltra
+                cat README.md
+            - name: Install the cowsay comd
+              run: sudo apt install cowsay -y
+            - name: Generate ASCII Artifact.
+              run: cowsay -f dragon "Run for cover I am dragon rowr...." >> dragon.txt
+            - name: Test file exists
+              run: grep -i "dragon" dragon.txt
+            - name: Read the file
+              run: cat dragon.txt
+            - name: list the repo files.
+              run: ls -ltra

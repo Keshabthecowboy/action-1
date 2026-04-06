@@ -8,9 +8,10 @@ jobs:
         steps:
             - name: add checkout
               uses: actions/checkout@v6
-            - name: welcome message
-              run: echo "My first Github Action Job"
-            - name: List files
-              run: ls
-            - name: read file
-              run: cat README.md
+            - name: welcome message list files and read the README.md
+              run: |
+                echo "My first Github Action Job"
+                ls -ltra
+                cat README.md
+            - name: Generate ASCII Artifact.
+              run: cowsay -f dragon "Run for cover I am dragon rowr...." >> dragon.txt

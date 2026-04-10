@@ -1,6 +1,7 @@
 name: Workflow dispatch demo
+
 on:
-  workflow-dispatch:
+  workflow_dispatch:
 
 env:
   CONTAINER_REGISTRY: docker.io

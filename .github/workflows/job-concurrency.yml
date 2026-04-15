@@ -1,0 +1,31 @@
+name: Using Job Concurrency
+
+on:
+  workflow_dispatch:
+
+env:
+  CONTAINER_REGISTRY: docker.io
+  IMAGE_NAME: github-actions-nginx
+
+jobs:
+  docker:
+    runs-on: utuntu-latest
+    steps:
+    - name: Docker build
+      run: echo docker build -t ${{ env.CONTAINER_REGISTRY }}/${{ vars.DOCKER_USERNAME }}/$IMAGE_NAME:latest
+    - name: Docker login
+      run: echo docker login --username=${{ vars.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
+    - name: Docker Publish
+      run: echo docker push $CONTAINER_REGISTRY/${{ vars.DOCKER_USERNAME }}/$IMAGE_NAME:latest
+    
+  deploy:
+    needs: docker
+    concurrency:
+        group: production-deployment
+        cancel-in-progress: true
+    runs-on: ubuntu-latest
+    steps:
+    - name: Docker Run
+      run: |
+        echo docker run -d -p 8080:80 $CONTAINER_REGISTRY/${{ vars.DOCKER_USERNAME}}/$IMAGE_NAME:latest
+        sleep 600s
